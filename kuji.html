@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>くじ引き</title>
+
+<style>
+body{
+  background:#111;
+  color:white;
+  font-family:sans-serif;
+  text-align:center;
+  padding-top:100px;
+}
+
+h1{
+  font-size:50px;
+}
+
+#result{
+  font-size:80px;
+  margin:50px;
+}
+
+button{
+  font-size:30px;
+  padding:20px 40px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<h1>くじ引き</h1>
+
+<div id="result">?</div>
+
+<button onclick="draw()">
+くじを引く
+</button>
+
+<script>
+function draw(){
+
+  // 0〜1のランダム
+  const r = Math.random();
+
+  // 10%で当たり
+  if(r < 0.1){
+    document.getElementById("result").textContent = "当たり";
+  }
+  else{
+    document.getElementById("result").textContent = "ハズレ";
+  }
+
+}
+</script>
+
+</body>
+</html>
