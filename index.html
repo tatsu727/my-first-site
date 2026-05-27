@@ -2,43 +2,57 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>初めてのサイト</title>
+  <title>クリックゲーム</title>
 
   <style>
     body{
       background:#111;
       color:white;
-      text-align:center;
       font-family:sans-serif;
-      padding-top:100px;
+      text-align:center;
+      padding-top:80px;
     }
 
     h1{
       font-size:50px;
     }
 
-    p{
-      color:gray;
+    #score{
+      font-size:40px;
+      margin:30px;
     }
 
     button{
-      padding:10px 20px;
-      font-size:20px;
+      font-size:30px;
+      padding:20px 40px;
       border:none;
-      border-radius:10px;
+      border-radius:15px;
       cursor:pointer;
+    }
+
+    button:hover{
+      transform:scale(1.05);
     }
   </style>
 </head>
 <body>
 
-  <h1>Hello World</h1>
+  <h1>クリックゲーム</h1>
 
-  <p>GitHubとVercelで公開できた！</p>
+  <div id="score">0</div>
 
-  <button onclick="alert('押された！')">
-    ボタン
+  <button onclick="addScore()">
+    クリック！
   </button>
+
+  <script>
+    let score = 0;
+
+    function addScore(){
+      score++;
+      document.getElementById("score").textContent = score;
+    }
+  </script>
 
 </body>
 </html>
