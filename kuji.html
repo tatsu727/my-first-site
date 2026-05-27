@@ -28,6 +28,7 @@ button{
   border:none;
   border-radius:10px;
   cursor:pointer;
+  margin:10px;
 }
 
 button:hover{
@@ -46,13 +47,19 @@ button:hover{
 くじを引く
 </button>
 
+<br>
+
+<button onclick="location.href='index.html'">
+戻る
+</button>
+
 <script>
 function draw(){
 
   // 0〜1のランダム
   const r = Math.random();
 
-  // 10%で当たり
+  // 50%で当たり
   if(r < 0.5){
     document.getElementById("result").textContent = "当たり";
   }
@@ -62,12 +69,6 @@ function draw(){
 
 }
 </script>
-
-<br><br>
-
-<button onclick="location.href='index.html'">
-戻る
-</button>
 
 </body>
 </html>
