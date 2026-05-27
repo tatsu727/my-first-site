@@ -2,140 +2,57 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>数字ガチャ＋保存庫</title>
+<title>ガチャ</title>
 
 <style>
-  body{
-    background:#111;
-    color:white;
-    text-align:center;
-    font-family:sans-serif;
-    padding-top:40px;
-  }
+body{
+  background:#111;
+  color:white;
+  text-align:center;
+  font-family:sans-serif;
+  padding-top:80px;
+}
 
-  h1{
-    font-size:36px;
-  }
+button{
+  font-size:24px;
+  padding:15px 30px;
+  border-radius:10px;
+  cursor:pointer;
+}
 
-  .container{
-    display:flex;
-    justify-content:center;
-    gap:40px;
-    margin-top:30px;
-    flex-wrap:wrap;
-  }
-
-  .box{
-    width:300px;
-    background:#222;
-    padding:20px;
-    border-radius:10px;
-  }
-
-  #results, #storage{
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap:10px;
-    margin-top:15px;
-  }
-
-  .num{
-    background:#333;
-    padding:10px;
-    font-size:20px;
-    border-radius:8px;
-    color:#00ffcc;
-  }
-
-  button{
-    font-size:22px;
-    padding:10px 20px;
-    margin-top:20px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-  }
-
-  button:hover{
-    transform:scale(1.05);
-  }
+#result{
+  font-size:50px;
+  margin:40px;
+  color:#00ffcc;
+}
 </style>
 </head>
 
 <body>
 
-<h1>数字ガチャ＋保存庫</h1>
+<h1>数字ガチャ</h1>
 
-<button onclick="gacha10()">10連ガチャ</button>
-<button onclick="saveAll()">全部保存</button>
+<div id="result">-</div>
 
-<div class="container">
+<button onclick="draw()">ガチャを引く</button>
 
-  <!-- ガチャ結果 -->
-  <div class="box">
-    <h2>ガチャ結果</h2>
-    <div id="results"></div>
-  </div>
-
-  <!-- 保存庫 -->
-  <div class="box">
-    <h2>保存庫</h2>
-    <div id="storage"></div>
-  </div>
-
-</div>
+<button onclick="goStorage()">保存庫へ</button>
 
 <script>
-let currentResults = [];
+function draw(){
+  const num = Math.floor(Math.random() * 10000001);
 
-// 10連ガチャ
-function gacha10(){
-  const container = document.getElementById("results");
-  container.innerHTML = "";
-  currentResults = [];
+  document.getElementById("result").textContent = num;
 
-  for(let i = 0; i < 10; i++){
-    const num = Math.floor(Math.random() * 10000001);
-    currentResults.push(num);
-
-    const div = document.createElement("div");
-    div.className = "num";
-    div.textContent = num;
-
-    container.appendChild(div);
-  }
+  // 保存（配列で管理）
+  let data = JSON.parse(localStorage.getItem("nums")) || [];
+  data.push(num);
+  localStorage.setItem("nums", JSON.stringify(data));
 }
 
-// 保存
-function saveAll(){
-  const storage = document.getElementById("storage");
-
-  currentResults.forEach(num => {
-    const div = document.createElement("div");
-    div.className = "num";
-    div.textContent = num;
-
-    storage.appendChild(div);
-  });
-
-  // localStorageにも保存
-  let saved = JSON.parse(localStorage.getItem("savedNums")) || [];
-  saved = saved.concat(currentResults);
-  localStorage.setItem("savedNums", JSON.stringify(saved));
+function goStorage(){
+  window.location.href = "storage.html";
 }
-
-// 読み込み
-window.onload = () => {
-  const saved = JSON.parse(localStorage.getItem("savedNums")) || [];
-  const storage = document.getElementById("storage");
-
-  saved.forEach(num => {
-    const div = document.createElement("div");
-    div.className = "num";
-    div.textContent = num;
-    storage.appendChild(div);
-  });
-};
 </script>
 
 </body>
