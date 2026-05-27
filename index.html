@@ -45,7 +45,7 @@
     クリック！
   </button>
 
-  <script>
+<script>
   // 読み込み（保存データがあれば使う）
   let score = Number(localStorage.getItem("score")) || 0;
 
@@ -54,31 +54,17 @@
 
   function addScore(){
     score++;
-
-    // 表示更新
-    document.getElementById("score").textContent = score;
-
-    // 保存
-    localStorage.setItem("score", score);
-  }
-  
-  let score = Number(localStorage.getItem("score")) || 0;
-
-  document.getElementById("score").textContent = score;
-
-  function addScore(){
-    score++;
     document.getElementById("score").textContent = score;
     localStorage.setItem("score", score);
   }
 
-  // ここが追加ポイント👇
+  // 1秒ごとに増える
   setInterval(() => {
     score++;
     document.getElementById("score").textContent = score;
     localStorage.setItem("score", score);
   }, 1000);
-
+  
 </script>
 
 </body>
