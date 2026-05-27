@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>クリックゲーム</title>
+  <title>放置テストゲーム</title>
 
   <style>
     body{
@@ -13,12 +13,8 @@
       padding-top:80px;
     }
 
-    h1{
-      font-size:50px;
-    }
-
     #score{
-      font-size:40px;
+      font-size:50px;
       margin:30px;
     }
 
@@ -26,47 +22,75 @@
       font-size:30px;
       padding:20px 40px;
       border:none;
-      border-radius:15px;
+      border-radius:10px;
       cursor:pointer;
-    }
-
-    button:hover{
-      transform:scale(1.05);
     }
   </style>
 </head>
 
 <body>
 
-  <h1>クリックゲーム</h1>
+  <h1>放置テスト</h1>
 
   <div id="score">0</div>
 
-  <button onclick="addScore()">
-    クリック！
+  <button onclick="clickBoost()">
+    クリック（倍率UP）
   </button>
 
-  <script>
-    // セーブデータ読み込み
-    let score = Number(localStorage.getItem("score")) || 0;
+<script>
+  // =====================
+  // 基本データ
+  // =====================
+  let score = Number(localStorage.getItem("score")) || 0;
 
-    // 表示更新
-    document.getElementById("score").textContent = score;
+  let multiplier = 1.0;
 
-    // クリックで増える
-    function addScore(){
-      score++;
-      document.getElementById("score").textContent = score;
-      localStorage.setItem("score", score);
-    }
+  let playSeconds = 0;
 
-    // 1秒ごとに自動で増える
-    setInterval(() => {
-      score++;
-      document.getElementById("score").textContent = score;
-      localStorage.setItem("score", score);
-    }, 1000);
-  </script>
+  // 表示
+  function render(){
+    document.getElementById("score").textContent = Math.floor(score);
+  }
+
+  render();
+
+  // =====================
+  // クリック
+  // =====================
+  function clickBoost(){
+    multiplier += 0.2; // 永続で増える（インフレ実験用）
+  }
+
+  // =====================
+  // 1秒ごとの収入
+  // =====================
+  setInterval(() => {
+
+    playSeconds++;
+
+    // log成長（放置ベース）
+    let logBonus = Math.log(playSeconds + 1);
+
+    // 合計収入
+    score += 1 * multiplier + logBonus;
+
+    render();
+
+    localStorage.setItem("score", score);
+
+  }, 1000);
+
+  // =====================
+  // 10秒ごとに倍率上昇
+  // =====================
+  setInterval(() => {
+
+    multiplier += 0.1; // 無限に増える（テスト用）
+
+  }, 10000);
+
+</script>
 
 </body>
 </html>
