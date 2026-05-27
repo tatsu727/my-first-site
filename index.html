@@ -61,6 +61,24 @@
     // 保存
     localStorage.setItem("score", score);
   }
+  
+  let score = Number(localStorage.getItem("score")) || 0;
+
+  document.getElementById("score").textContent = score;
+
+  function addScore(){
+    score++;
+    document.getElementById("score").textContent = score;
+    localStorage.setItem("score", score);
+  }
+
+  // ここが追加ポイント👇
+  setInterval(() => {
+    score++;
+    document.getElementById("score").textContent = score;
+    localStorage.setItem("score", score);
+  }, 1000);
+
 </script>
 
 </body>
