@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>ガチャ</title>
+<title>10連ガチャ</title>
 
 <style>
 body{
@@ -10,43 +10,68 @@ body{
   color:white;
   text-align:center;
   font-family:sans-serif;
-  padding-top:80px;
+  padding-top:60px;
 }
 
-button{
-  font-size:24px;
-  padding:15px 30px;
-  border-radius:10px;
-  cursor:pointer;
+h1{
+  font-size:36px;
 }
 
 #result{
-  font-size:50px;
-  margin:40px;
+  display:grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap:10px;
+  margin:40px auto;
+  max-width:600px;
+}
+
+.num{
+  background:#222;
+  padding:15px;
+  font-size:22px;
+  border-radius:8px;
   color:#00ffcc;
+}
+
+button{
+  font-size:20px;
+  padding:10px 20px;
+  margin:10px;
+  border-radius:10px;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<h1>数字ガチャ</h1>
+<h1>10連ガチャ</h1>
 
-<div id="result">-</div>
+<div id="result"></div>
 
-<button onclick="draw()">ガチャを引く</button>
-
+<button onclick="gacha10()">10連ガチャ</button>
 <button onclick="goStorage()">保存庫へ</button>
 
 <script>
-function draw(){
-  const num = Math.floor(Math.random() * 10000001);
+function gacha10(){
+  const container = document.getElementById("result");
+  container.innerHTML = "";
 
-  document.getElementById("result").textContent = num;
-
-  // 保存（配列で管理）
   let data = JSON.parse(localStorage.getItem("nums")) || [];
-  data.push(num);
+
+  for(let i = 0; i < 10; i++){
+    const num = Math.floor(Math.random() * 10000001);
+
+    // 表示
+    const div = document.createElement("div");
+    div.className = "num";
+    div.textContent = num;
+    container.appendChild(div);
+
+    // 保存
+    data.push(num);
+  }
+
   localStorage.setItem("nums", JSON.stringify(data));
 }
 
