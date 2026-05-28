@@ -67,10 +67,20 @@ function gacha100(){
 
   let data = JSON.parse(localStorage.getItem("nums")) || [];
 
+  // 重複防止用
+  let used = [];
+
   for(let i = 0; i < 100; i++){
 
-    // 0〜10000
-    const num = Math.floor(Math.random() * 10001);
+    let num;
+
+    // かぶらないまで再抽選
+    do{
+      num = Math.floor(Math.random() * 10001);
+    }
+    while(used.includes(num));
+
+    used.push(num);
 
     // 表示
     const div = document.createElement("div");
