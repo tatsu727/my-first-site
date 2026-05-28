@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>10秒チャレンジ</title>
+
+<style>
+
+body{
+  background:#111;
+  color:white;
+  text-align:center;
+  font-family:sans-serif;
+  margin:0;
+  padding-top:40px;
+}
+
+h1{
+  font-size:50px;
+  margin-bottom:10px;
+}
+
+p{
+  color:#aaa;
+}
+
+#timer{
+  font-size:100px;
+  margin:50px;
+  color:#00ffcc;
+}
+
+button{
+  font-size:24px;
+  padding:15px 30px;
+  margin:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>10秒チャレンジ</h1>
+
+<p>
+10.0秒で止めてください
+</p>
+
+<div id="timer">
+0.0
+</div>
+
+<button onclick="startTimer()">
+タイマー開始
+</button>
+
+<button onclick="stopTimer()">
+停止
+</button>
+
+<button onclick="retryTimer()">
+リトライ
+</button>
+
+<br>
+
+<button onclick="location.href='index.html'">
+ホームに戻る
+</button>
+
+<script>
+
+let time = 0;
+
+let interval = null;
+
+// 一度止めたら再開不可
+let finished = false;
+
+function startTimer(){
+
+  // すでに開始済み or 終了済み
+  if(interval !== null || finished){
+    return;
+  }
+
+  interval = setInterval(() => {
+
+    time += 0.1;
+
+    // 60秒上限
+    if(time >= 60){
+
+      time = 60;
+
+      document.getElementById("timer").textContent =
+        time.toFixed(1);
+
+      clearInterval(interval);
+
+      interval = null;
+
+      finished = true;
+
+      return;
+
+    }
+
+    document.getElementById("timer").textContent =
+      time.toFixed(1);
+
+  }, 100);
+
+}
+
+function stopTimer(){
+
+  // 動いてないなら無効
+  if(interval === null){
+    return;
+  }
+
+  clearInterval(interval);
+
+  interval = null;
+
+  finished = true;
+
+}
+
+function retryTimer(){
+
+  // タイマー停止
+  clearInterval(interval);
+
+  interval = null;
+
+  // 時間リセット
+  time = 0;
+
+  // 再挑戦可能
+  finished = false;
+
+  // 表示更新
+  document.getElementById("timer").textContent =
+    "0.0";
+
+}
+
+</script>
+
+</body>
+</html>
