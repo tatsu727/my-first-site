@@ -19,7 +19,16 @@ h1{
 
 #result{
   font-size:80px;
-  margin:50px;
+  margin:40px;
+  transition:0.2s;
+}
+
+.win{
+  color:gold;
+}
+
+.lose{
+  color:gray;
 }
 
 button{
@@ -34,12 +43,19 @@ button{
 button:hover{
   transform:scale(1.05);
 }
+
+#count{
+  margin-top:20px;
+  color:#aaa;
+}
 </style>
 </head>
 
 <body>
 
 <h1>くじ引き</h1>
+
+<p>当たり確率 50%</p>
 
 <div id="result">?</div>
 
@@ -53,19 +69,40 @@ button:hover{
 戻る
 </button>
 
+<div id="count">
+引いた回数: 0
+</div>
+
 <script>
+
+let count = 0;
+
 function draw(){
 
-  // 0〜1のランダム
-  const r = Math.random();
+  const result = document.getElementById("result");
 
-  // 50%で当たり
-  if(r < 0.5){
-    document.getElementById("result").textContent = "当たり";
-  }
-  else{
-    document.getElementById("result").textContent = "ハズレ";
-  }
+  // 抽選っぽくする
+  result.textContent = "...";
+  result.className = "";
+
+  setTimeout(() => {
+
+    const r = Math.random();
+
+    if(r < 0.5){
+      result.textContent = "当たり";
+      result.className = "win";
+    }
+    else{
+      result.textContent = "ハズレ";
+      result.className = "lose";
+    }
+
+    count++;
+    document.getElementById("count").textContent =
+      "引いた回数: " + count;
+
+  }, 300);
 
 }
 </script>
