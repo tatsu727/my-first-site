@@ -5,16 +5,29 @@
 <title>100連ガチャ</title>
 
 <style>
+
 body{
   background:#111;
   color:white;
   text-align:center;
   font-family:sans-serif;
+  margin:0;
   padding-top:20px;
 }
 
 h1{
-  font-size:36px;
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+p{
+  color:#aaa;
+}
+
+#count{
+  margin:20px;
+  font-size:24px;
+  color:#00ffcc;
 }
 
 #result{
@@ -37,9 +50,15 @@ button{
   font-size:20px;
   padding:10px 20px;
   margin:10px;
+  border:none;
   border-radius:10px;
   cursor:pointer;
 }
+
+button:hover{
+  transform:scale(1.05);
+}
+
 </style>
 </head>
 
@@ -47,10 +66,27 @@ button{
 
 <h1>100連ガチャ</h1>
 
+<p>
+0〜10000の数字を集めるゲーム
+</p>
+
+<div id="count">
+集めた数字: 0 / 10001
+</div>
+
 <div id="result"></div>
 
-<button onclick="gacha100()">100連ガチャ</button>
-<button onclick="goStorage()">保存庫へ</button>
+<button onclick="gacha100()">
+100連ガチャ
+</button>
+
+<button onclick="goStorage()">
+保存庫へ
+</button>
+
+<button onclick="resetData()">
+データ削除
+</button>
 
 <br>
 
@@ -60,44 +96,94 @@ button{
 
 <script>
 
+// 所持データ
+let data = JSON.parse(localStorage.getItem("nums")) || [];
+
+// 表示更新
+updateCount();
+
 function gacha100(){
 
   const container = document.getElementById("result");
+
   container.innerHTML = "";
 
-  let data = JSON.parse(localStorage.getItem("nums")) || [];
+  // 重複防止
+  const used = new Set(data);
 
-  // 重複防止用
-  let used = [];
+  // 全部集め終わった
+  if(used.size >= 10001){
 
-  for(let i = 0; i < 100; i++){
+    alert("すべての数字を集めました！");
 
-    let num;
+    return;
 
-    // かぶらないまで再抽選
-    do{
-      num = Math.floor(Math.random() * 10001);
+  }
+
+  const newNums = [];
+
+  // 100個生成
+  while(newNums.length < 100 && used.size < 10001){
+
+    const num = Math.floor(Math.random() * 10001);
+
+    // 未所持のみ追加
+    if(!used.has(num)){
+
+      used.add(num);
+
+      newNums.push(num);
+
     }
-    while(used.includes(num));
 
-    used.push(num);
+  }
 
-    // 表示
+  // 表示
+  newNums.forEach(num => {
+
     const div = document.createElement("div");
+
     div.className = "num";
+
     div.textContent = num;
 
     container.appendChild(div);
 
-    // 保存
-    data.push(num);
-  }
+  });
+
+  // 保存
+  data = [...used];
 
   localStorage.setItem("nums", JSON.stringify(data));
+
+  // カウント更新
+  updateCount();
+
+}
+
+function updateCount(){
+
+  document.getElementById("count").textContent =
+    "集めた数字: " + data.length + " / 10001";
+
 }
 
 function goStorage(){
+
   window.location.href = "storage.html";
+
+}
+
+function resetData(){
+
+  localStorage.removeItem("nums");
+
+  data = [];
+
+  updateCount();
+
+  document.getElementById("result").innerHTML = "";
+
 }
 
 </script>
