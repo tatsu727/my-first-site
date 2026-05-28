@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>10連ガチャ</title>
+<title>100連ガチャ</title>
 
 <style>
 body{
@@ -10,7 +10,7 @@ body{
   color:white;
   text-align:center;
   font-family:sans-serif;
-  padding-top:60px;
+  padding-top:20px;
 }
 
 h1{
@@ -21,14 +21,14 @@ h1{
   display:grid;
   grid-template-columns: repeat(5, 1fr);
   gap:10px;
-  margin:40px auto;
-  max-width:600px;
+  margin:30px auto;
+  max-width:700px;
 }
 
 .num{
   background:#222;
-  padding:15px;
-  font-size:22px;
+  padding:12px;
+  font-size:20px;
   border-radius:8px;
   color:#00ffcc;
 }
@@ -45,11 +45,11 @@ button{
 
 <body>
 
-<h1>10連ガチャ</h1>
+<h1>100連ガチャ</h1>
 
 <div id="result"></div>
 
-<button onclick="gacha10()">10連ガチャ</button>
+<button onclick="gacha100()">100連ガチャ</button>
 <button onclick="goStorage()">保存庫へ</button>
 
 <br>
@@ -59,19 +59,24 @@ button{
 </button>
 
 <script>
-function gacha10(){
+
+function gacha100(){
+
   const container = document.getElementById("result");
   container.innerHTML = "";
 
   let data = JSON.parse(localStorage.getItem("nums")) || [];
 
-  for(let i = 0; i < 10; i++){
-    const num = Math.floor(Math.random() * 10000001);
+  for(let i = 0; i < 100; i++){
+
+    // 0〜10000
+    const num = Math.floor(Math.random() * 10001);
 
     // 表示
     const div = document.createElement("div");
     div.className = "num";
     div.textContent = num;
+
     container.appendChild(div);
 
     // 保存
@@ -84,6 +89,7 @@ function gacha10(){
 function goStorage(){
   window.location.href = "storage.html";
 }
+
 </script>
 
 </body>
