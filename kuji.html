@@ -2,25 +2,49 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>くじ引き</title>
+<title>カードくじ</title>
 
 <style>
 body{
   background:#111;
   color:white;
-  font-family:sans-serif;
   text-align:center;
-  padding-top:100px;
+  font-family:sans-serif;
+  padding-top:80px;
 }
 
 h1{
   font-size:50px;
 }
 
-#result{
-  font-size:80px;
-  margin:40px;
+#cards{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  margin-top:50px;
+}
+
+.card{
+  width:180px;
+  height:250px;
+  background:#222;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  cursor:pointer;
   transition:0.2s;
+}
+
+.card:hover{
+  transform:scale(1.05);
+  background:#333;
+}
+
+#result{
+  font-size:70px;
+  margin-top:50px;
 }
 
 .win{
@@ -32,79 +56,61 @@ h1{
 }
 
 button{
-  font-size:30px;
-  padding:20px 40px;
+  margin-top:40px;
+  font-size:25px;
+  padding:10px 20px;
   border:none;
   border-radius:10px;
   cursor:pointer;
-  margin:10px;
-}
-
-button:hover{
-  transform:scale(1.05);
-}
-
-#count{
-  margin-top:20px;
-  color:#aaa;
 }
 </style>
 </head>
 
 <body>
 
-<h1>くじ引き</h1>
+<h1>カードくじ</h1>
 
-<p>当たり確率 50%</p>
+<p>好きなカードを選んでください</p>
 
-<div id="result">?</div>
+<div id="cards">
 
-<button onclick="draw()">
-くじを引く
-</button>
+  <div class="card" onclick="draw()">
+    ?
+  </div>
 
-<br>
+  <div class="card" onclick="draw()">
+    ?
+  </div>
+
+</div>
+
+<div id="result">
+  
+</div>
 
 <button onclick="location.href='index.html'">
 戻る
 </button>
 
-<div id="count">
-引いた回数: 0
-</div>
-
 <script>
-
-let count = 0;
 
 function draw(){
 
   const result = document.getElementById("result");
 
-  // 抽選っぽくする
-  result.textContent = "...";
-  result.className = "";
+  const r = Math.random();
 
-  setTimeout(() => {
-
-    const r = Math.random();
-
-    if(r < 0.5){
-      result.textContent = "当たり";
-      result.className = "win";
-    }
-    else{
-      result.textContent = "ハズレ";
-      result.className = "lose";
-    }
-
-    count++;
-    document.getElementById("count").textContent =
-      "引いた回数: " + count;
-
-  }, 300);
+  if(r < 0.5){
+    result.textContent = "当たり";
+    result.className = "win";
+  }
+  else{
+    result.textContent = "ハズレ";
+    result.className = "lose";
+  }
 
 }
+
 </script>
 
 </body>
