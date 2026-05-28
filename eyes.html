@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>追いかける目</title>
+
+<style>
+
+body{
+  margin:0;
+  height:100vh;
+  background:#111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* 目 */
+
+.eye{
+
+  width:200px;
+  height:200px;
+
+  background:white;
+
+  border-radius:50%;
+
+  position:relative;
+}
+
+/* 黒目 */
+
+.pupil{
+
+  width:60px;
+  height:60px;
+
+  background:black;
+
+  border-radius:50%;
+
+  position:absolute;
+
+  top:70px;
+  left:70px;
+}
+
+/* ホームボタン */
+
+#homeButton{
+
+  position:fixed;
+
+  top:20px;
+  left:20px;
+
+  font-size:18px;
+
+  padding:10px 20px;
+
+  border:none;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
+}
+
+#homeButton:hover{
+
+  transform:scale(1.05);
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ホームボタン -->
+
+<button id="homeButton" onclick="location.href='index.html'">
+ホームに戻る
+</button>
+
+<!-- 目 -->
+
+<div class="eye">
+
+  <div class="pupil" id="pupil"></div>
+
+</div>
+
+<script>
+
+const pupil = document.getElementById("pupil");
+
+document.addEventListener("mousemove", (e) => {
+
+  const eye = document.querySelector(".eye");
+
+  const rect = eye.getBoundingClientRect();
+
+  // 目の中心
+  const eyeX = rect.left + rect.width / 2;
+  const eyeY = rect.top + rect.height / 2;
+
+  // マウスとの差
+  const dx = e.clientX - eyeX;
+  const dy = e.clientY - eyeY;
+
+  // 角度
+  const angle = Math.atan2(dy, dx);
+
+  // 動く距離
+  const distance = 50;
+
+  // 黒目移動
+  const x = Math.cos(angle) * distance;
+  const y = Math.sin(angle) * distance;
+
+  pupil.style.transform =
+    `translate(${x}px, ${y}px)`;
+
+});
+
+</script>
+
+</body>
+</html>
