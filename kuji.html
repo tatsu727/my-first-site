@@ -35,6 +35,7 @@ h1{
   font-size:40px;
   cursor:pointer;
   transition:0.2s;
+  user-select:none;
 }
 
 .card:hover{
@@ -42,17 +43,14 @@ h1{
   background:#333;
 }
 
-#result{
-  font-size:70px;
-  margin-top:50px;
-}
-
 .win{
-  color:gold;
+  background:gold;
+  color:black;
 }
 
 .lose{
-  color:gray;
+  background:gray;
+  color:white;
 }
 
 button{
@@ -74,19 +72,19 @@ button{
 
 <div id="cards">
 
-  <div class="card" onclick="draw()">
+  <div class="card" onclick="draw(this)">
     ?
   </div>
 
-  <div class="card" onclick="draw()">
+  <div class="card" onclick="draw(this)">
     ?
   </div>
 
 </div>
 
-<div id="result">
-  
-</div>
+<button onclick="resetCards()">
+リセット
+</button>
 
 <button onclick="location.href='index.html'">
 戻る
@@ -94,20 +92,34 @@ button{
 
 <script>
 
-function draw(){
+function draw(card){
 
-  const result = document.getElementById("result");
+  // すでに引いてたら無効
+  if(card.textContent !== "?"){
+    return;
+  }
 
   const r = Math.random();
 
   if(r < 0.5){
-    result.textContent = "当たり";
-    result.className = "win";
+    card.textContent = "当たり";
+    card.classList.add("win");
   }
   else{
-    result.textContent = "ハズレ";
-    result.className = "lose";
+    card.textContent = "ハズレ";
+    card.classList.add("lose");
   }
+
+}
+
+function resetCards(){
+
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    card.textContent = "?";
+    card.className = "card";
+  });
 
 }
 
