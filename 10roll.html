@@ -74,8 +74,6 @@ button:hover{
 集めた数字: 0 / 10001
 </div>
 
-<div id="result"></div>
-
 <button onclick="gacha100()">
 100連ガチャ
 </button>
@@ -94,6 +92,8 @@ button:hover{
 戻る
 </button>
 
+<div id="result"></div>
+
 <script>
 
 // 所持データ
@@ -106,6 +106,7 @@ function gacha100(){
 
   const container = document.getElementById("result");
 
+  // 前回結果削除
   container.innerHTML = "";
 
   // 重複防止
@@ -127,7 +128,7 @@ function gacha100(){
 
     const num = Math.floor(Math.random() * 10001);
 
-    // 未所持のみ追加
+    // 未所持なら追加
     if(!used.has(num)){
 
       used.add(num);
