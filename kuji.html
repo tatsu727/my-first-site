@@ -95,7 +95,7 @@ button{
 function draw(card){
 
   // すでに引いてたら無効
-  if(card.textContent !== "?"){
+  if(card.textContent.trim() !== "?"){
     return;
   }
 
