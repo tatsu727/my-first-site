@@ -72,19 +72,11 @@ button{
 
 <div id="cards">
 
-  <div class="card" onclick="draw(this)">
-    ?
-  </div>
+  <div class="card" onclick="draw(this)">?</div>
 
-  <div class="card" onclick="draw(this)">
-    ?
-  </div>
+  <div class="card" onclick="draw(this)">?</div>
 
 </div>
-
-<button onclick="resetCards()">
-リセット
-</button>
 
 <button onclick="location.href='index.html'">
 戻る
@@ -92,12 +84,16 @@ button{
 
 <script>
 
+let drawing = false;
+
 function draw(card){
 
-  // すでに引いてたら無効
-  if(card.textContent.trim() !== "?"){
+  // 抽選中は押せない
+  if(drawing){
     return;
   }
+
+  drawing = true;
 
   const r = Math.random();
 
@@ -110,16 +106,19 @@ function draw(card){
     card.classList.add("lose");
   }
 
-}
+  // 1秒後に強制リセット
+  setTimeout(() => {
 
-function resetCards(){
+    const cards = document.querySelectorAll(".card");
 
-  const cards = document.querySelectorAll(".card");
+    cards.forEach(c => {
+      c.textContent = "?";
+      c.className = "card";
+    });
 
-  cards.forEach(card => {
-    card.textContent = "?";
-    card.className = "card";
-  });
+    drawing = false;
+
+  }, 1000);
 
 }
 
