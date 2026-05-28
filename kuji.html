@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>カードくじ</title>
+<title>4枚カードくじ</title>
 
 <style>
 body{
@@ -10,7 +10,7 @@ body{
   color:white;
   text-align:center;
   font-family:sans-serif;
-  padding-top:80px;
+  padding-top:20px;
 }
 
 h1{
@@ -20,13 +20,14 @@ h1{
 #cards{
   display:flex;
   justify-content:center;
-  gap:40px;
+  gap:30px;
   margin-top:50px;
+  flex-wrap:wrap;
 }
 
 .card{
-  width:180px;
-  height:250px;
+  width:200px;
+  height:260px;
   background:#222;
   border-radius:15px;
   display:flex;
@@ -66,15 +67,16 @@ button{
 
 <body>
 
-<h1>カードくじ</h1>
+<h1>4枚カードくじ</h1>
 
-<p>好きなカードを選んでください</p>
+<p>1枚だけ当たりがあります</p>
 
 <div id="cards">
 
-  <div class="card" onclick="draw(this)">?</div>
-
-  <div class="card" onclick="draw(this)">?</div>
+  <div class="card" onclick="draw(0)">?</div>
+  <div class="card" onclick="draw(1)">?</div>
+  <div class="card" onclick="draw(2)">?</div>
+  <div class="card" onclick="draw(3)">?</div>
 
 </div>
 
@@ -86,35 +88,43 @@ button{
 
 let drawing = false;
 
-function draw(card){
+// 当たりカードをランダム決定
+let winCard = Math.floor(Math.random() * 4);
 
-  // 抽選中は押せない
+function draw(index){
+
   if(drawing){
     return;
   }
 
   drawing = true;
 
-  const r = Math.random();
+  const cards = document.querySelectorAll(".card");
 
-  if(r < 0.5){
-    card.textContent = "当たり";
-    card.classList.add("win");
-  }
-  else{
-    card.textContent = "ハズレ";
-    card.classList.add("lose");
-  }
+  // 全カードを公開
+  cards.forEach((card, i) => {
 
-  // 1秒後に強制リセット
+    if(i === winCard){
+      card.textContent = "当たり";
+      card.classList.add("win");
+    }
+    else{
+      card.textContent = "ハズレ";
+      card.classList.add("lose");
+    }
+
+  });
+
+  // 1秒後リセット
   setTimeout(() => {
 
-    const cards = document.querySelectorAll(".card");
-
-    cards.forEach(c => {
-      c.textContent = "?";
-      c.className = "card";
+    cards.forEach(card => {
+      card.textContent = "?";
+      card.className = "card";
     });
+
+    // 新しい当たり位置
+    winCard = Math.floor(Math.random() * 4);
 
     drawing = false;
 
